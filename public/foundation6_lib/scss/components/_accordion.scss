@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 // Foundation for Sites by ZURB
 // foundation.zurb.com
 // Licensed under MIT Open Source
@@ -77,7 +79,7 @@ $accordion-content-padding: 1rem !default;
     }
 
     .is-active > &::before {
-      content: '–';
+      content: '-';
     }
   }
 }

@@ -2,16 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>MP4 Starter</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Awesome Task Manager</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="angular-datepicker/angular-datepicker.css">
+    <link rel="stylesheet" href="css/styles.css">
 
     <!-- Angular Scripts -->
     <!-- NOTE: removing the ".min." can help debugging in the console-->
     <script src="./lib/angular/angular.min.js"></script>
     <script src="./lib/angular-route/angular-route.min.js"></script>
+    <script src="angular-datepicker/angular-datepicker.js"></script>
     <script src="./js/app.js"></script>
     <script src="./js/controllers.js"></script>
     <script src="./js/services.js"></script>
@@ -19,22 +22,43 @@
 
 <body ng-app="mp4">
 
-    <div class="row text-center">
-    	<a class="button" href="#/settings">Settings</a>
-    	<a class="button" href="#/llamalist">Llama List</a>
-        <a class="button" href="#/firstview">First View</a>
-        <a class="button" href="#/secondview">Second View</a>
+<div class="top-bar">
+    <div class="top-bar-left">
+        <ul class="menu">
+            <li class="menu-text">Awesome Task Manager</li>
+            <li><a href="#/users">Users</a></li>
+            <li><a href="#/tasks">Tasks</a></li>
+        </ul>
     </div>
+    <div class="top-bar-right">
+        <ul class="menu">
+            <li><a href="#/settings">Settings</a></li>
+        </ul>
+    </div>
+</div>
 
-    <div ng-view></div>
+<!--
+<div class="row text-center">
+    <a class="button" href="#/settings">Settings</a>
+    <a class="button" href="#/llamalist">Llama List</a>
+    <a class="button" href="#/firstview">First View</a>
+    <a class="button" href="#/secondview">Second View</a>
+</div>
+-->
 
-    <!-- Scripts -->
-    <script src="./lib/jquery-2.1.3.min/index.js"></script>
-    <script src="./foundation6_lib/js/foundation.min.js"></script>
-    <script src="./js/script.js"></script>
-    <script>
+<div id="view" ng-view></div>
+
+<hr>
+<h6 class="subheader text-center">Created by Kin Yan NG. CS498RK MP4.</h6>
+<br>
+
+<!-- Scripts -->
+<script src="./lib/jquery-2.1.3.min/index.js"></script>
+<script src="./foundation6_lib/js/foundation.min.js"></script>
+<script src="./js/script.js"></script>
+<script>
     $(document).foundation();
-    </script>
-    <script src="http://localhost:35729/livereload.js"></script>
+</script>
+<script src="http://localhost:35729/livereload.js"></script>
 </body>
 </html>

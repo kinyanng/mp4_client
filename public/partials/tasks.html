@@ -1,0 +1,83 @@
+<div>
+    <h2>Tasks</h2>
+
+    <h5 class="subheader">really important stuff</h5>
+    <br>
+
+    <div>
+        <div class="text-right">
+            <a href="#/tasks/add">
+                <button class="button success">Add task</button>
+            </a>
+        </div>
+        <hr>
+
+        <div class="row">
+            <fieldset class="large-6 columns">
+                <legend>Show</legend>
+                <input id="show-pending" type="radio" value="pending"
+                       ng-model="tasklist.show" ng-click="tasklist.currentPage = 0; tasklist.update()">
+                <label for="show-pending">Pending tasks</label>
+                <input id="show-completed" type="radio" value="completed"
+                       ng-model="tasklist.show" ng-click="tasklist.currentPage = 0; tasklist.update()">
+                <label for="show-completed">Completed tasks</label>
+                <input id="show-all" type="radio" value="all"
+                       ng-model="tasklist.show" ng-click="tasklist.currentPage = 0; tasklist.update()">
+                <label for="show-all">All tasks</label>
+            </fieldset>
+            <fieldset class="large-2 columns">
+                <legend>Sort by</legend>
+                <select ng-model="tasklist.predicate" ng-change="tasklist.update()">
+                    <option value="dateCreated">Date created</option>
+                    <option value="deadline">Deadline</option>
+                    <option value="name">Name</option>
+                    <option value="assignedUserName">Assigned user</option>
+                </select>
+            </fieldset>
+            <fieldset class="large-4 columns">
+                <legend class="show-for-large">&nbsp;</legend>
+                <input id="order-asc" type="radio" value="asc" ng-model="tasklist.order" ng-click="tasklist.update()">
+                <label for="order-asc">Ascending</label>
+                <input id="order-desc" type="radio" value="desc" ng-model="tasklist.order" ng-click="tasklist.update()">
+                <label for="order-desc">Descending</label>
+            </fieldset>
+        </div>
+        <div class="row">
+            <table class="small-12 columns hover">
+                <tr ng-repeat="task in tasklist.data">
+                    <td style="width: 60%">
+                        <a ng-href="#/tasks/{{ task._id }}">{{ task.name }}</a>
+                    </td>
+                    <td class="text-right" style="width: 32%">
+                        <strong>Deadline:</strong> {{ task.deadline | date:'MM/dd/yyyy' : 'UTC' }}<br>
+                        Assigned to {{ task.assignedUserName }}.
+                    </td>
+                    <td class="text-center" style="width: 8%">
+                        <button ng-click="tasklist.delete(task._id)" class="button alert">Delete</button>
+                    </td>
+                </tr>
+                <tr ng-if="tasklist.data.length == 0">
+                    <td class="text-center"><br>No task<br><br></td>
+                </tr>
+            </table>
+        </div>
+        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+            <li class="pagination-previous">
+                <a aria-label="Previous page" ng-class="tasklist.currentPage == 0 ? 'disabled' : ''"
+                   ng-click="tasklist.previousPage()">
+                    Previous
+                </a>
+            </li>
+            <li></li>
+            <li>{{ tasklist.currentPage+1 }} / {{ tasklist.numberOfPages() }}</li>
+            <li></li>
+            <li class="pagination-next">
+                <a aria-label="Next page"
+                   ng-class="tasklist.currentPage >= tasklist.numberOfPages()-1 ? 'disabled' : ''"
+                   ng-click="tasklist.nextPage()">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

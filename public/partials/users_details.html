@@ -1,0 +1,71 @@
+<div>
+    <h2>User Profile</h2>
+
+    <h5 class="subheader">just like on Facebook but better</h5>
+    <br>
+
+    <div>
+        <div class="text-right">
+            <button class="button" onclick="history.back()">Go back</button>
+        </div>
+        <hr>
+        <br>
+
+        <div class="row">
+            <h3 class="medium-6 columns">{{ user.name }}</h3>
+
+            <div class="medium-6 columns">
+                <br>
+                <strong>Email: </strong>{{ user.email }}
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="small-12 columns">
+                <h5>Pending Tasks</h5>
+                <table class="hover">
+                    <tr ng-repeat="task in user.pendingTask">
+                        <td style="width: 60%">
+                            <a ng-href="#/tasks/{{ task._id }}">{{ task.name }}</a>
+                        </td>
+                        <td class="text-right" style="width: 32%">
+                            <strong>Deadline:</strong> {{ task.deadline | date:'MM/dd/yyyy' }}<br>
+                        </td>
+                        <td class="text-center" style="width: 8%">
+                            <button ng-click="user.completeTask(task._id)" class="button success">Complete</button>
+                        </td>
+                    </tr>
+                    <tr ng-if="user.pendingTask.length == 0">
+                        <td class="text-center"><br>No pending task<br><br></td>
+                    </tr>
+                </table>
+
+                <button class="button" ng-click="toggleCompletedTask()">
+                    {{ showCompletedTask ? 'Hide' : 'Show' }} completed tasks
+                </button>
+
+                <div ng-if="showCompletedTask">
+                    <br>
+                    <h5>Completed Tasks</h5>
+                    <table class="hover">
+                        <tr ng-repeat="task in user.completedTask">
+                            <td style="width: 60%">
+                                <a ng-href="#/tasks/{{ task._id }}">{{ task.name }}</a>
+                            </td>
+                            <td class="text-right" style="width: 32%">
+                                <strong>Deadline:</strong> {{ task.deadline | date:'MM/dd/yyyy' : 'UTC' }}<br>
+                            </td>
+                            <td class="text-center" style="width: 8%">
+                                <button class="button disabled">Complete</button>
+                            </td>
+                        </tr>
+                        <tr ng-if="user.completedTask.length == 0">
+                            <td class="text-center"><br>No completed task<br><br></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

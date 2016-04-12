@@ -1,0 +1,35 @@
+<div>
+    <h2>Task Details</h2>
+
+    <h5 class="subheader">gotta get this done</h5>
+    <br>
+
+    <div>
+        <div class="text-right">
+            <a ng-href="#/tasks/{{ task._id }}/edit">
+                <button class="button secondary">Edit task</button>
+            </a>
+            &nbsp;&nbsp;&nbsp;
+            <button class="button" onclick="history.back()">Go back</button>
+        </div>
+        <hr>
+        <br>
+
+        <div class="row">
+            <h3 class="small-12 columns">{{ task.name }}</h3>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="medium-6 columns">Assigned to {{ task.assignedUserName }}.</div>
+            <div class="medium-6 columns">
+                <strong>Deadline: </strong>{{ task.deadline | date:'MM/dd/yyyy' : 'UTC' }}
+                &nbsp;
+                <span class="label" ng-class="task.completed ? 'success' : 'warning'">
+                    {{ task.completed ? 'Completed' : 'Pending' }}
+                </span>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

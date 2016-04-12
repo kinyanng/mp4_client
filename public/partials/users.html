@@ -1,0 +1,35 @@
+<div>
+    <h2>Users</h2>
+
+    <h5 class="subheader">a list of cool people</h5>
+    <br>
+
+    <div>
+        <div class="text-right">
+            <a href="#/users/add">
+                <button class="button success">Add user</button>
+            </a>
+        </div>
+        <hr>
+        <br>
+
+        <div class="row">
+            <table class="small-12 columns hover">
+                <tr ng-repeat="user in userlist.data">
+                    <td style="width: 46%">
+                        <a ng-href="#/users/{{ user._id }}">{{ user.name }}</a>
+                    </td>
+                    <td style="width: 46%">
+                        <i>{{ user.email }}</i>
+                    </td>
+                    <td class="text-center" style="width: 8%">
+                        <button ng-click="userlist.delete(user._id)" class="button alert">Delete</button>
+                    </td>
+                </tr>
+                <tr ng-if="userlist.data.length == 0">
+                    <td class="text-center"><br>No user<br><br></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

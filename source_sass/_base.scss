@@ -1,1 +1,10 @@
 // Add any custom Sass & CSS here
+#view {
+  margin: 2% 5%;
+}
+
+form.ng-submitted {
+  input.ng-invalid {
+    @extend .is-invalid-input;
+  }
+}

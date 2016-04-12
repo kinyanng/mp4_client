@@ -1,0 +1,75 @@
+<div>
+    <h2>{{ isEdit ? 'Edit' : 'Add' }} Task</h2>
+
+    <h5 class="subheader">staying occupied</h5>
+    <br>
+
+    <div>
+        <form name="form" novalidate>
+            <div class="row">
+                <div class="small-6 columns">
+                    <label>Name *
+                        <input type="text" name="name" placeholder="Name" required ng-model="task.formData.name">
+
+                        <span class="form-error is-visible"
+                              ng-if="form.$submitted && form.name.$error.required">
+                            Name is required.
+                        </span>
+                    </label>
+
+                    <label>Description
+                        <input type="text" placeholder="Description" ng-model="task.formData.description">
+                    </label>
+
+                    <label>Deadline *
+                        <datepicker date-format="yyyy-MM-dd'T'HH:mm:ss.sss'Z'" date-min-limit="{{ today }}">
+                            <input type="text" name="deadline" placeholder="Deadline" required
+                                   ng-model="task.formData.deadline">
+                        </datepicker>
+
+                        <span class="form-error is-visible"
+                              ng-if="form.$submitted && form.deadline.$error.required">
+                            <br>Deadline is required.
+                        </span>
+                    </label>
+
+                    <label>Assigned User
+                        <select id="assignedUser" ng-model="task.formData.assignedUser">
+                            <option ng-repeat="user in users" value="{{ user._id }}">{{ user.name }}</option>
+                        </select>
+                    </label>
+
+                    <label ng-if="isEdit">Task Completed?
+                        <div class="switch large">
+                            <input class="switch-input" id="yes-no" type="checkbox" ng-model="task.formData.completed">
+                            <label class="switch-paddle" for="yes-no">
+                                <span class="switch-active" aria-hidden="true">Yes</span>
+                                <span class="switch-inactive" aria-hidden="true">No</span>
+                            </label>
+                        </div>
+                    </label>
+                    <br>
+
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <button class="button" type="submit" ng-class="isEdit ? 'secondary' : 'success'"
+                                    ng-click="task.submit(form)">{{ isEdit ? 'Update' : 'Submit' }}
+                            </button>
+                        </div>
+                        <div class="small-6 columns text-right">
+                            <button class="button alert" type="reset" ng-if="!isEdit" ng-click="task.reset(form)">
+                                Reset
+                            </button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button class="button" onclick="history.back()">Go back</button>
+                        </div>
+                    </div>
+
+                    <div ng-if="displayText != ''" class="callout" ng-class="user.hasAdded ? 'success' : 'alert'">
+                        <span>{{ displayText }}</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

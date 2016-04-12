@@ -1,0 +1,53 @@
+<div>
+    <h2>Add User</h2>
+
+    <h5 class="subheader">our next task-slayer</h5>
+    <br>
+
+    <div>
+        <form name="form" novalidate>
+            <div class="row">
+                <div class="small-6 columns">
+                    <label>Name *
+                        <input type="text" name="name" placeholder="Name" required ng-model="user.formData.name">
+
+                        <span class="form-error is-visible"
+                              ng-if="form.$submitted && form.name.$error.required">
+                            Name is required.
+                        </span>
+                    </label>
+
+                    <label>Email *
+                        <input type="email" name="email" placeholder="someone@example.com" required
+                               ng-model="user.formData.email">
+
+                        <span class="form-error is-visible"
+                              ng-if="form.$submitted && form.email.$error.required">
+                            Email is required.
+                        </span>
+                        <span class="form-error is-visible"
+                              ng-if="form.$submitted && form.email.$error.email">
+                            Invalid format.
+                        </span>
+                    </label>
+                    <br>
+
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <button class="button success" type="submit" ng-click="user.submit(form)">Submit</button>
+                        </div>
+                        <div class="small-6 columns text-right">
+                            <button class="button alert" type="reset" ng-click="user.reset(form)">Reset</button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button class="button" onclick="history.back()">Go back</button>
+                        </div>
+                    </div>
+
+                    <div ng-if="displayText != ''" class="callout" ng-class="user.hasAdded ? 'success' : 'alert'">
+                        <span>{{ displayText }}</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
