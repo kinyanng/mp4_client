@@ -16,12 +16,19 @@
         <br>
 
         <div class="row">
-            <h3 class="small-12 columns">{{ task.name }}</h3>
+            <div class="small-12 columns">
+                <h3>{{ task.name }}</h3>
+                <h5>{{ task.description }}</h5>
+            </div>
         </div>
         <br>
 
         <div class="row">
-            <div class="medium-6 columns">Assigned to {{ task.assignedUserName }}.</div>
+            <div class="medium-6 columns">
+                Assigned to {{ task.assignedUserName }}.<br>
+                <br>
+                Created at {{ task.dateCreated | date:'MM/dd/yyyy HH:mm' : 'UTC' }}.
+            </div>
             <div class="medium-6 columns">
                 <strong>Deadline: </strong>{{ task.deadline | date:'MM/dd/yyyy' : 'UTC' }}
                 &nbsp;

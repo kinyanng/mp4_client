@@ -1,6 +1,6 @@
 var mp4Controllers = angular.module('mp4Controllers', ['720kb.datepicker']);
 
-mp4Controllers.controller('UsersController', ['$scope', 'Users', function ($scope, Users) {
+mp4Controllers.controller('UsersController', ['$scope', 'Users', 'Tasks', function ($scope, Users, Tasks) {
     $scope.userlist = {};
     $scope.userlist.data = [];
 
@@ -9,6 +9,10 @@ mp4Controllers.controller('UsersController', ['$scope', 'Users', function ($scop
             .success(function () {
                 for (var i = 0; i < $scope.userlist.data.length; i++) {
                     if ($scope.userlist.data[i]._id == id) {
+                        for (var j = 0; j < $scope.userlist.data[i].pendingTasks.length; j++) {
+                            Tasks.unassign($scope.userlist.data[i].pendingTasks[j]);
+                        }
+
                         $scope.userlist.data.splice(i, 1);
                         break;
                     }
@@ -94,6 +98,8 @@ mp4Controllers.controller('UserDetailsController', ['$scope', '$routeParams', 'U
 
                 Tasks.update(task)
                     .success(function () {
+                        Users.updatePendingTask($scope.user._id, id, false);
+
                         for (var i = 0; i < $scope.user.pendingTask.length; i++) {
                             if ($scope.user.pendingTask[i]._id == task._id) {
                                 $scope.user.pendingTask.splice(i, 1);
@@ -139,7 +145,7 @@ mp4Controllers.controller('UserDetailsController', ['$scope', '$routeParams', 'U
         });
 }]);
 
-mp4Controllers.controller('TasksController', ['$scope', 'Tasks', function ($scope, Tasks) {
+mp4Controllers.controller('TasksController', ['$scope', 'Users', 'Tasks', function ($scope, Users, Tasks) {
     $scope.tasklist = {};
     $scope.tasklist.data = [];
     $scope.tasklist.total = 0;
@@ -171,6 +177,8 @@ mp4Controllers.controller('TasksController', ['$scope', 'Tasks', function ($scop
             .success(function () {
                 for (var i = 0; i < $scope.tasklist.data.length; i++) {
                     if ($scope.tasklist.data[i]._id == id) {
+                        Users.updatePendingTask($scope.tasklist.data[i].assignedUser, id, false);
+
                         $scope.tasklist.data.splice(i, 1);
                         break;
                     }
@@ -179,6 +187,7 @@ mp4Controllers.controller('TasksController', ['$scope', 'Tasks', function ($scop
                 if ($scope.tasklist.currentPage != 0 && $scope.tasklist.data.length == 0) {
                     $scope.tasklist.previousPage();
                 }
+                else $scope.tasklist.update();
             })
             .error(function (data) {
                 alert(data.message);
@@ -213,6 +222,7 @@ mp4Controllers.controller('AddTaskController', ['$scope', '$routeParams', 'Users
     $scope.isEdit = $routeParams.taskId != undefined;
     $scope.today = (new Date()).toJSON();
     $scope.users = [];
+    $scope.previousAssignedUser = '';
     $scope.displayText = '';
 
     $scope.task = {};
@@ -228,7 +238,14 @@ mp4Controllers.controller('AddTaskController', ['$scope', '$routeParams', 'Users
         if (form.$valid) {
             if ($scope.isEdit) {
                 Tasks.update($scope.task.formData)
-                    .success(function () {
+                    .success(function (data) {
+                        if ($scope.task.formData.assignedUser != $scope.previousAssignedUser || $scope.task.formData.completed) {
+                            Users.updatePendingTask($scope.previousAssignedUser, data.data._id, false);
+                        }
+                        if (!$scope.task.formData.completed) {
+                            Users.updatePendingTask($scope.task.formData.assignedUser, data.data._id, true);
+                        }
+
                         window.history.back();
                     })
                     .error(function (data) {
@@ -238,7 +255,9 @@ mp4Controllers.controller('AddTaskController', ['$scope', '$routeParams', 'Users
             }
             else {
                 Tasks.add($scope.task.formData)
-                    .success(function () {
+                    .success(function (data) {
+                        Users.updatePendingTask($scope.task.formData.assignedUser, data.data._id, true);
+
                         $scope.task.hasAdded = true;
                         $scope.displayText = "Task has been added successfully";
                         $scope.task.reset(form);
@@ -273,6 +292,7 @@ mp4Controllers.controller('AddTaskController', ['$scope', '$routeParams', 'Users
     if ($scope.isEdit) {
         Tasks.get($routeParams.taskId)
             .success(function (data) {
+                $scope.previousAssignedUser = data.data.assignedUser;
                 $scope.task.formData = data.data;
             })
             .error(function (data) {
